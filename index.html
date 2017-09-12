@@ -1,0 +1,61 @@
+<div style="width: 600px; margin: 0 auto">
+	<button onclick="addPanel()" style="margin: 100px">addPanel</button>
+	<a href="javascript:;">拖拽至书签栏</a>
+</div>
+<script>
+// 使用移动端网页和单页app
+// 网易邮箱手机版
+// m.baidu.com
+// w.mail.qq.com
+// smart.mail.163.com https 失败了
+
+function addPanel() {
+	// https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/iframe
+	if (document.querySelector('.mypanel')) {
+		return
+	}
+	var div = document.createElement('div')
+	div.innerHTML = '<div class="mypanel" style="position: absolute; right: 0; top: 0" draggable><form><input type="text" value="m.baidu.com"><button style="width: 50px;height: 30px;margin: 5px;" type="submit">前往</button></form><iframe src="http://m.baidu.com" sandbox="allow-same-origin allow-scripts allow-forms allow-pointer-lock" style="resize: both; height: 500px; margin-top: 20px;"></div>'
+	// div.innerHTML = '<div><input type="text"><button>前往</button></div><iframe src="http://mail.qq.com" style="resize: both">'
+	div = div.firstChild
+	document.body.appendChild(div)
+	function onsubmit(e) {
+		var url = div.querySelector('input').value
+		if (!url.startsWith('http')) {
+			url = 'https://' + url
+		}
+		div.querySelector('iframe').src = url
+		if (e) {
+			e.preventDefault()
+		}
+	}
+	div.querySelector('form').onsubmit = onsubmit
+	onsubmit()
+	console.log('add panel success')
+}
+
+function initBookMark() {
+	var funcStr = addPanel.toString()
+	funcStr = uglifyJS(funcStr)
+	var href = '!' + funcStr + '()'
+	href = 'javascript:' + href + ';'
+	console.log(href)
+	document.querySelector('a').href = href
+}
+
+function uglifyJS(funcStr) {
+	var arr = funcStr.split('\n')
+	arr = arr.map(function(line) {
+		line = line.trim()
+		if (line.indexOf('//') == 0) {
+			line = ''
+		}
+		return line
+	}).filter(function(line) {
+		return line
+	})
+	return arr.join(';')
+}
+
+initBookMark()
+</script>
