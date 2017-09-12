@@ -2,7 +2,7 @@
 
 > 网页考试作弊神器
 
-1. 访问 <chunpu.github.io/embed-iframe>
+1. 访问 <https://chunpu.github.io/embed-iframe>
 1. 按提示将按钮拖拽至书签栏
 1. 考试时点击书签栏获得 iframe 网页
 1. 在书签栏
